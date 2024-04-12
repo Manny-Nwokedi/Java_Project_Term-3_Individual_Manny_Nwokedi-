@@ -1,3 +1,4 @@
+--doctor_patient
 CREATE TABLE doctor_patient (
     doctor_id INT NOT NULL,
     patient_id INT NOT NULL,
@@ -5,3 +6,4 @@ CREATE TABLE doctor_patient (
     FOREIGN KEY (doctor_id) REFERENCES users(id),
     FOREIGN KEY (patient_id) REFERENCES users(id)
 )
+SELECT * FROM doctor_patient

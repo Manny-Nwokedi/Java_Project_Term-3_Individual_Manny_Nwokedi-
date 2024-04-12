@@ -92,14 +92,13 @@ import java.sql.*;
 
 public class UserDao {
 
-    public UserDao(String url, String username, String password) {
-        //TODO Auto-generated constructor stub
-    }
+    // public UserDao(String url, String username, String password) {
+        // TODO Auto-generated constructor stub
+    // }
 
-    public boolean createUser(User user) {
-        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/your_database", "your_username", "your_password")) {
+    public static boolean createUser(User user) {
+        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5433/Health_Stack_Project_Term3_Final_sprint", "postgres", "Zack2012")) {
             String hashedPassword = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
-
             String query = "INSERT INTO users (first_name, last_name, email, password, is_doctor) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, user.getFirstName());
@@ -118,7 +117,7 @@ public class UserDao {
 
     public User getUserById(int id) {
         User user = null;
-        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/your_database", "your_username", "your_password")) {
+        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5433/Health_Stack_Project_Term3_Final_sprint", "postgres", "Zack2012")) {
             String query = "SELECT * FROM users WHERE id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, id);
@@ -142,7 +141,7 @@ public class UserDao {
 
     public User getUserByEmail(String email) {
         User user = null;
-        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/your_database", "your_username", "your_password")) {
+        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5433/Health_Stack_Project_Term3_Final_sprint", "postgres", "Zack2012")) {
             String query = "SELECT * FROM users WHERE email = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, email);
@@ -165,7 +164,7 @@ public class UserDao {
     }
 
     public boolean updateUser(User user) {
-        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/your_database", "your_username", "your_password")) {
+        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5433/Health_Stack_Project_Term3_Final_sprint", "postgres", "Zack2012")) {
             String query = "UPDATE users SET first_name = ?, last_name = ?, email = ?, password = ?, is_doctor = ? WHERE id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, user.getFirstName());
@@ -184,7 +183,7 @@ public class UserDao {
     }
 
     public boolean deleteUser(int id) {
-        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/your_database", "your_username", "your_password")) {
+        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5433/Health_Stack_Project_Term3_Final_sprint", "postgres", "Zack2012")) {
             String query = "DELETE FROM users WHERE id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, id);
@@ -198,7 +197,7 @@ public class UserDao {
     }
 
     public boolean verifyPassword(String email, String password) {
-        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/your_database", "your_username", "your_password")) {
+        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5433/Health_Stack_Project_Term3_Final_sprint", "postgres", "Zack2012")) {
             String query = "SELECT password FROM users WHERE email = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, email);

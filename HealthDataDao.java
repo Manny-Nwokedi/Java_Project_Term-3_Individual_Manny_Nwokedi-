@@ -62,7 +62,7 @@ public class HealthDataDao {
         int heartRate = resultSet.getInt("heart_rate");
         java.sql.Date date = resultSet.getDate("date");
         // Assuming you have a UserDao to fetch the user object
-        User user = new UserDao(url, username, password).getUserById(userId);
+        User user = new UserDao().getUserById(userId);
         return new HealthData(id, user, weight, height, steps, heartRate, date);
     }
 

@@ -1,3 +1,5 @@
+
+--medicine_reminders.sql
 CREATE TABLE medicine_reminders (
     id SERIAL PRIMARY KEY,
     user_id INT NOT NULL,
@@ -8,3 +10,5 @@ CREATE TABLE medicine_reminders (
     end_date DATE NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(id)
 )
+
+SELECT * FROM medicine_reminders

@@ -46,3 +46,4 @@ public class MedicineReminderManager {
         // Or perform JDBC operations directly
     }
 }
+

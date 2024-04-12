@@ -1,66 +1,59 @@
-
+// Health Monitoring App
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalTime;
 import java.util.List;
 
 public class HealthMonitoringApp {
 
     public static void main(String[] args) {
-        // Create a sample user
-        User user1 = new User(5, "Ainee", "Malik", "qmalik@gmail.com", "gug", false);
+        // Establish database connection
+        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5433/Health_Stack_Project_Term3_Final_sprint", "postgres", "Zack2012")) {
+            // Fetch and display health data
+            fetchAndDisplayHealthData(connection);
 
-        // Register the user
-        UserDaoExample.createUser(user1);
-
-        // Test login functionality
-        testLoginUser();
-
-        // Test doctor portal functionality
-        testDoctorPortal();
-    }
-
-    
-    
-    public static boolean loginUser(String email, String password) {
-        // Implement method to login user.
-        User user = UserDaoExample.getUserByEmail(email);
-
-        if (user != null && user.getPassword().equals(password)) {
-            return true;
+            // Fetch and display medicine reminders
+            fetchAndDisplayMedicineReminders(connection);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
-        return false;
     }
 
-    public static void testDoctorPortal() {
-        int doctorId = 1;
-
-        // Create an instance of DoctorPortalDao
-        DoctorPortalDao doctorPortalDao = new DoctorPortalDao();
-
-        // Fetch the doctor by ID
-        Doctor doctor = doctorPortalDao.getDoctorById(doctorId);
-        System.out.println("Doctor: " + doctor);
-
-        // Fetch patients associated with the doctor
-        List<User> patients = doctorPortalDao.getPatientsByDoctorId(doctorId);
-        System.out.println("Patients associated with Doctor: " + patients);
-
-        // Fetch health data for the patient
-        int patientId = 1; // Assuming patient ID
-        HealthData healthData = doctorPortalDao.getHealthDataByPatientId(patientId);
-        System.out.println("Health Data for Patient: " + healthData);
+    private static void fetchAndDisplayHealthData(Connection connection) throws SQLException {
+        String query = "SELECT * FROM health_data";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                int userId = resultSet.getInt("user_id");
+                double weight = resultSet.getDouble("weight");
+                double height = resultSet.getDouble("height");
+                int steps = resultSet.getInt("steps");
+                int heartRate = resultSet.getInt("heart_rate");
+                java.sql.Date date = resultSet.getDate("date");
+                System.out.println("Health Data - User ID: " + userId + ", Weight: " + weight + ", Height: " + height +
+                        ", Steps: " + steps + ", Heart Rate: " + heartRate + ", Date: " + date);
+            }
+        }
     }
 
-    public static void testLoginUser() {
-        // Replace the email and password with valid credentials from your database
-        String userEmail = "qmalik@gmail.com";
-        String userPassword = "gug";
-
-        boolean loginSuccess = loginUser(userEmail, userPassword);
-
-        if (loginSuccess) {
-            System.out.println("Login Successful");
-        } else {
-            System.out.println("Incorrect email or password. Please try again.");
+    private static void fetchAndDisplayMedicineReminders(Connection connection) throws SQLException {
+        String query = "SELECT * FROM medicine_reminders";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                int userId = resultSet.getInt("user_id");
+                String medicineName = resultSet.getString("medicine_name");
+                String dosage = resultSet.getString("dosage");
+                String schedule = resultSet.getString("schedule");
+                java.sql.Date startDate = resultSet.getDate("start_date");
+                java.sql.Date endDate = resultSet.getDate("end_date");
+                System.out.println("Medicine Reminder - User ID: " + userId + ", Medicine Name: " + medicineName +
+                        ", Dosage: " + dosage + ", Schedule: " + schedule + ", Start Date: " + startDate +
+                        ", End Date: " + endDate);
+            }
         }
     }
 }

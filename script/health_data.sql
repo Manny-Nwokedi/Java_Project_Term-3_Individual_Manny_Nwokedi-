@@ -1,3 +1,5 @@
+
+--health_data.sql
 CREATE TABLE health_data (
     id SERIAL PRIMARY KEY,
     user_id INT NOT NULL,
@@ -8,3 +10,5 @@ CREATE TABLE health_data (
     date DATE NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(id)
 )
+
+SELECT * FROM health_data

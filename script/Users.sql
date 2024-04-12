@@ -1,3 +1,4 @@
+--users
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     first_name VARCHAR(50) NOT NULL,
@@ -6,3 +7,5 @@ CREATE TABLE users (
     password VARCHAR(255) NOT NULL,
     is_doctor BOOLEAN NOT NULL
 )
+
+SELECT * FROM users
